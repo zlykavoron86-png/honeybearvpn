@@ -1,0 +1,91 @@
+{
+  "name": "honeybearvpn",
+  "version": "1.2.0",
+  "description": "HoneyBear VPN - Удобное VPN приложение с акцентом на раздельное туннелирование и отборную Hysteria",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "node _repack.js && electron-builder",
+    "dist:portable": "node _repack.js && electron-builder --win portable",
+    "dist:installer": "node _repack.js && electron-builder --win nsis"
+  },
+  "build": {
+    "appId": "com.honeybear.vpn",
+    "productName": "HoneyBearVPN",
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "legalTrademarks": "HoneyBearVPN",
+      "requestedExecutionLevel": "requireAdministrator",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "HoneyBearVPN",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    },
+    "files": [
+      "package.json",
+      "main.js",
+      "preload.js",
+      "core-manager.js",
+      "config-parser.js",
+      "proxy-controller.js",
+      "updater-manager.js",
+      "version.json",
+      "assets/bear.jpg",
+      "assets/icon.ico",
+      "bin/sing-box.exe",
+      "bin/wintun.dll",
+      "ui/app.js",
+      "ui/index.html",
+      "ui/style.css"
+    ],
+    "extraResources": [
+      {
+        "from": "bin",
+        "to": "bin"
+      }
+    ],
+    "afterPack": "./_afterPack.js"
+  },
+  "keywords": [
+    "vpn",
+    "hysteria",
+    "hysteria2",
+    "honeybear",
+    "sing-box",
+    "split-tunneling"
+  ],
+  "author": "HoneyBearVPN Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron/asar": "^4.3.0",
+    "electron": "^35.0.0",
+    "electron-builder": "^25.1.8"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "HoneyBear VPN",
+  "version": "1.2.0",
+  "date": "2026-10-23",
+  "changelog": "### 🐻 HoneyBear VPN v1.2.0\n\n- Удобный и простой VPN клиент.\n- Главная фишка — умное раздельное туннелирование: пускайте через VPN только нужные приложения и сайты.\n- Отборная Hysteria (Hysteria 2) для максимальной скорости и стабильного соединения.\n- Безопасное автообновление с проверкой целостности SHA-256.",
+  "downloadUrl": "https://raw.githubusercontent.com/zlykavoron86-png/honeybearvpn/main/update/app.asar",
+  "size": 82979632,
+  "sha256": "8469c482c8db5831b1c7e247265c3bca988ec4980ebf991ddb905ce65e788dca"
+}

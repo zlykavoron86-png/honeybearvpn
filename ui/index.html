@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HoneyBear VPN</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-window">
+    
+    <!-- Top Bar -->
+    <header class="app-header">
+      <div class="brand">
+        <img src="../assets/bear.jpg" alt="Honey Bear" class="brand-bear-img">
+        <span class="brand-name">HoneyBear <span class="brand-sub">VPN</span></span>
+      </div>
+
+      <div class="header-tools">
+        <!-- Corner Auto-Updater Indicator -->
+        <div id="update-indicator" class="update-indicator idle" title="Проверить обновления HoneyBear">
+          <span class="update-icon-wrapper">
+            <svg class="update-spinner" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="9" stroke-opacity="0.25"></circle>
+              <path d="M12 3a9 9 0 0 1 9 9" stroke-linecap="round"></path>
+            </svg>
+            <svg class="update-check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <svg class="update-sparkle" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" stroke-linecap="round"></path>
+            </svg>
+          </span>
+          <span id="update-badge-text" class="update-badge-text">v1.2.0</span>
+        </div>
+
+        <button id="btn-quick-paste" class="tool-btn paste-pill-btn" title="Вставить ключ или ссылку из буфера">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="7" width="14" height="14" rx="2"/>
+            <path d="M9 7V5a3 3 0 0 1 6 0v2"/>
+          </svg>
+          <span class="btn-label">Вставить</span>
+        </button>
+
+        <button id="btn-routing-toggle" class="tool-btn icon-only" title="Раздельное туннелирование">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 3 21 3 21 8"/>
+            <line x1="4" y1="20" x2="21" y2="3"/>
+            <polyline points="21 16 21 21 16 21"/>
+            <line x1="15" y1="15" x2="21" y2="21"/>
+            <line x1="4" y1="4" x2="9" y2="9"/>
+          </svg>
+        </button>
+
+        <button id="btn-settings-toggle" class="tool-btn icon-only" title="Настройки HoneyBear">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+
+        <button id="btn-telegram-channel" class="tool-btn icon-only tg-shield-btn" title="Наш Telegram-канал @honeybearvpn">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
+            <path d="M12 2L4 5.5v6.1c0 5.1 3.4 9.8 8 11.4 4.6-1.6 8-6.3 8-11.4V5.5L12 2z" fill="rgba(42,171,238,0.22)" stroke="#2AABEE" stroke-width="1.6"/>
+            <path d="M8.2 12.1L15.8 9L14.2 15.8L11.8 13.7L10.1 14.6L9.8 12.7L13.8 10.3L9.1 13.1L8.2 12.1Z" fill="#FFFFFF"/>
+          </svg>
+        </button>
+
+        <div class="header-divider"></div>
+
+        <div class="win-controls">
+          <button id="btn-minimize" class="win-ctrl" title="Свернуть">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button id="btn-close" class="win-ctrl close" title="Закрыть">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Admin Warning Banner (shown only if not admin) -->
+    <div id="admin-warning-banner" class="admin-banner" style="display:none;">
+      <div class="admin-banner-content">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>Запущено без прав администратора — голосовой чат Discord (UDP/TUN) не будет работать. <a id="admin-restart-link" href="#" style="color:#F5B041;text-decoration:underline;">Перезапустить с правами администратора</a></span>
+      </div>
+      <button id="btn-close-admin-banner" class="banner-close-btn" title="Скрыть предупреждение">✕</button>
+    </div>
+
+    <!-- Main App Screen (Fixed Viewport) -->
+    <main class="app-main">
+      <!-- Atmospheric Mountain Landscape Silhouette Background -->
+      <div class="mountain-bg-layer" aria-hidden="true">
+        <svg viewBox="0 0 450 320" preserveAspectRatio="none" width="100%" height="100%">
+          <defs>
+            <linearGradient id="mtnGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#171B1E" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#0B0C0E" stop-opacity="0.95"/>
+            </linearGradient>
+            <linearGradient id="mtnGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#111417" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#0B0C0E" stop-opacity="1"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,190 L55,145 L115,175 L185,115 L255,165 L335,105 L405,155 L450,130 L450,320 L0,320 Z" fill="url(#mtnGrad1)"/>
+          <path d="M0,220 L85,170 L155,205 L235,150 L315,195 L385,160 L450,190 L450,320 L0,320 Z" fill="url(#mtnGrad2)"/>
+        </svg>
+      </div>
+
+      <!-- Bear Mascot Centerpiece -->
+      <div class="mascot-center">
+        <div class="mascot-frame-outer">
+          <div class="honey-pulse-ring" id="pulse-ring"></div>
+          <div class="mascot-frame" id="mascot-frame">
+            <img src="../assets/bear.jpg" alt="Honey Bear" class="mascot-img">
+          </div>
+        </div>
+
+        <!-- Connection Status Heading & Subtitle Timer -->
+        <div class="status-block">
+          <div class="status-pill" id="status-pill">
+            <span class="status-dot" id="status-dot"></span>
+            <span class="status-title" id="status-title">Отключен</span>
+          </div>
+          <div class="status-sub-timer" id="status-sub-timer">Не в сети &nbsp;•&nbsp; 00:00:00</div>
+        </div>
+      </div>
+
+      <!-- Active Server Selector Card -->
+      <div class="server-card" id="server-card-trigger">
+        <div class="server-card-left">
+          <div class="server-flag-box" id="active-server-flag">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#F5B041">
+              <path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z"/>
+            </svg>
+          </div>
+          <div class="server-text">
+            <span class="server-name" id="active-server-name">Выбрать за меня</span>
+            <span class="server-protocol" id="active-server-proto">Hysteria 2</span>
+          </div>
+        </div>
+        <div class="server-card-right">
+          <span class="server-ping-tag" id="active-server-ping">-- ms</span>
+          <span class="server-arrow">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- Main Screen Subscription Expiry Badge -->
+      <div class="main-sub-badge" id="main-sub-badge" style="display:none;" title="Нажмите, чтобы открыть список серверов и обновить">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#8E95A5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Подписка до <strong id="main-sub-date">—</strong></span>
+        <span class="main-sub-days" id="main-sub-days">355 дн.</span>
+      </div>
+
+      <!-- Circular Power Connect Button + Bottom Label -->
+      <div class="connect-container">
+        <button id="btn-connect" class="connect-button">
+          <span class="power-icon" id="btn-power-icon">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18.36 6.64a9 9 0 1 1-12.73 0"/>
+              <line x1="12" y1="2" x2="12" y2="12"/>
+            </svg>
+          </span>
+        </button>
+        <span class="btn-label" id="btn-label">Подключить</span>
+      </div>
+
+      <!-- Unified 3-Column Real-time Stats Bar -->
+      <div class="stats-strip">
+        <div class="stat-pill">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-sub">ВРЕМЯ</span>
+            <strong class="stat-val" id="stat-time">00:00:00</strong>
+          </div>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <div class="stat-pill">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="16"/><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-sub">ПИНГ</span>
+            <strong class="stat-val" id="stat-ping">-- ms</strong>
+          </div>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <div class="stat-pill">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-sub">МАРШРУТ</span>
+            <strong class="stat-val" id="stat-routing-mode">Весь трафик</strong>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- SERVERS LIST VIEW -->
+    <div class="sheet-overlay" id="servers-sheet">
+      <div class="sheet-header">
+        <div class="sheet-header-left">
+          <button id="btn-close-servers-sheet" class="sheet-back-btn" title="Назад">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="sheet-header-title">
+            <span>Серверы HoneyBear</span>
+            <span class="badge-count" id="servers-count">0</span>
+          </div>
+        </div>
+        <div class="sheet-header-actions">
+          <button id="btn-ping-all" class="btn-honey-small" title="Измерить пинг всех серверов">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Пинг
+          </button>
+          <button id="btn-open-add-dialog" class="btn-honey-small" title="Добавить подписку или ссылку">+ Добавить</button>
+        </div>
+      </div>
+
+      <div class="sheet-content">
+        <!-- Subscription Expiry / Traffic Info Bar -->
+        <div id="sub-meta-bar" class="sub-meta-bar" style="display:none;">
+          <div class="sub-meta-row">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Подписка до: <strong id="sub-expire-date">—</strong></span>
+            <span id="sub-days-left" class="sub-days-badge"></span>
+          </div>
+          <div class="sub-meta-row" id="sub-traffic-row" style="display:none;">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <span>Трафик: <strong id="sub-traffic-used">—</strong> / <strong id="sub-traffic-total">—</strong></span>
+          </div>
+        </div>
+
+        <!-- Subscription Quick Actions / Delete Banner -->
+        <div class="sub-actions-bar" id="sub-actions-bar" style="display:none;">
+          <div class="sub-info">
+            <span class="sub-name" id="sub-active-name"><img src="../assets/bear.jpg" alt="" class="inline-bear-img"> Подписка HoneyBear</span>
+            <small class="sub-count" id="sub-nodes-count">0 узлов</small>
+          </div>
+          <div class="sub-btns">
+            <button id="btn-reset-hwid-sub" class="sub-btn warning" title="Сбросить привязку устройств (HWID) в Remnawave">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:2px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Сброс HWID
+            </button>
+            <button id="btn-update-sub" class="sub-btn" title="Обновить список серверов из подписки">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:2px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              Обновить
+            </button>
+            <button id="btn-delete-sub" class="sub-btn danger" title="Удалить подписку и все её серверы">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:2px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              Удалить
+            </button>
+          </div>
+        </div>
+
+        <div class="servers-list" id="servers-list">
+          <!-- Dynamically populated servers -->
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS FULL VIEW (Matches Reference Screenshot 1) -->
+    <div class="sheet-overlay" id="settings-sheet">
+      <div class="sheet-header">
+        <div class="sheet-header-left">
+          <button id="btn-close-settings-sheet" class="sheet-back-btn" title="Назад">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="sheet-header-title">Настройки HoneyBear</div>
+        </div>
+      </div>
+
+      <div class="sheet-content">
+        <div class="settings-body">
+
+          <!-- Section 1: Ping Type -->
+          <div class="settings-section">
+            <div class="section-label-row">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#F5B041" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+              <span class="section-label-text">Тип проверки пинга</span>
+            </div>
+            <div class="setting-select-wrap">
+              <select id="setting-ping-type" class="setting-dropdown">
+                <option value="icmp" selected>ICMP Ping (Прямой пинг до сервера)</option>
+                <option value="tcp">TCP Handshake (Надежный порт 443/80)</option>
+                <option value="viaProxy">Via Proxy (Реальная задержка веб-запроса)</option>
+              </select>
+            </div>
+            <small class="setting-hint">ICMP измеряет точное сетевое время отклика узла в обход виртуального адаптера.</small>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <!-- Section 2: Ping Display Format -->
+          <div class="settings-section">
+            <div class="section-label-row">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#F5B041" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="6" y1="20" x2="6" y2="14"/>
+                <line x1="12" y1="20" x2="12" y2="6"/>
+                <line x1="18" y1="20" x2="18" y2="11"/>
+              </svg>
+              <span class="section-label-text">Отображение пинга</span>
+            </div>
+            <div class="setting-select-wrap">
+              <select id="setting-ping-result-type" class="setting-dropdown">
+                <option value="ms" selected>Миллисекунды (например: 64 ms)</option>
+                <option value="status">Статус доступности (OK / Ошибка)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <!-- Section 3: Auto Start & Behavior -->
+          <div class="settings-section">
+            <div class="section-label-row">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#F5B041" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+              </svg>
+              <span class="section-label-text">Запуск и поведение</span>
+            </div>
+            <div class="setting-group-box">
+              <label class="setting-row">
+                <div class="setting-row-left">
+                  <div class="setting-item-icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#8E95A5">
+                      <path d="M3 5.5L10.5 4.5V11.5H3V5.5ZM11.5 4.35L21 3V11.5H11.5V4.35ZM3 12.5H10.5V19.5L3 18.5V12.5ZM11.5 12.5H21V21L11.5 19.65V12.5Z"/>
+                    </svg>
+                  </div>
+                  <span class="setting-label-bold">Запускать при старте Windows</span>
+                </div>
+                <input type="checkbox" id="setting-auto-start" class="honey-switch">
+              </label>
+
+              <div class="setting-inner-sep"></div>
+
+              <label class="setting-row">
+                <div class="setting-row-left">
+                  <div class="setting-item-icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#8E95A5" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="4" width="18" height="16" rx="3"/>
+                      <path d="M9 10c0 1.66 1.34 3 3 3s3-1.34 3-3"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <span class="setting-label-bold" style="display:block;">Тихий запуск в трей</span>
+                    <small class="setting-hint" style="display:block;margin-top:2px;">Запускать свернутым в трей без всплывающего окна</small>
+                  </div>
+                </div>
+                <input type="checkbox" id="setting-silent-start" class="honey-switch">
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <!-- Section 4: Security / Kill Switch -->
+          <div class="settings-section">
+            <div class="section-label-row">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#F5B041" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span class="section-label-text">Безопасность</span>
+            </div>
+            <div class="setting-group-box">
+              <label class="setting-row">
+                <div class="setting-row-left">
+                  <div class="setting-item-icon">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#8E95A5" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      <path d="M12 8v8"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <span class="setting-label-bold" style="display:block;">Аварийная блокировка (Kill Switch)</span>
+                    <small class="setting-hint" style="display:block;margin-top:2px;">Блокировать интернет-трафик при неожиданном разрыве VPN</small>
+                  </div>
+                </div>
+                <input type="checkbox" id="setting-kill-switch" class="honey-switch">
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <!-- Section: DNS Mode (dns-ai.ru & dns.comss.one) -->
+          <div class="settings-section">
+            <div class="section-label-row">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#F5B041" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              <span class="section-label-text">Умный DNS (AI & Антиблокировка)</span>
+            </div>
+            <div class="setting-group-box">
+              <label class="setting-row">
+                <div class="setting-row-left">
+                  <div class="setting-item-icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      <polyline points="9 12 11 14 15 10"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <span class="setting-label-bold" style="display:block;">Включить умный DNS</span>
+                    <small class="setting-hint" style="display:block;margin-top:2px;">Шифрованный DNS для AI (dns-ai.ru + comss.one)</small>
+                  </div>
+                </div>
+                <input type="checkbox" id="setting-comss-dns" class="honey-switch" checked>
+              </label>
+
+              <div class="setting-inner-sep"></div>
+
+              <div class="setting-row-flex" style="padding: 10px 14px;">
+                <div class="setting-row-left">
+                  <div class="setting-item-icon">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#8E95A5" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="3"/>
+                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <strong class="setting-label-bold" style="display:block;">Шифрованные серверы</strong>
+                    <small class="setting-hint" style="display:block;margin-top:2px;">dns.dns-ai.ru + dns.comss.one (DoH RFC 8484)</small>
+                  </div>
+                </div>
+                <span class="dns-pill-badge active" id="dns-status-badge">Активен</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <!-- Section 5: Sing-box Core Details -->
+          <div class="settings-section">
+            <div class="section-label-row">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#F5B041" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+              <span class="section-label-text">Ядро</span>
+            </div>
+            <div class="setting-group-box">
+              <div class="setting-row-flex">
+                <div class="setting-row-left">
+                  <div class="setting-item-icon">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#8E95A5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="3" width="20" height="7" rx="2"/>
+                      <rect x="2" y="14" width="20" height="7" rx="2"/>
+                      <line x1="6" y1="6.5" x2="6.01" y2="6.5"/>
+                      <line x1="6" y1="17.5" x2="6.01" y2="17.5"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <strong class="setting-label-bold" style="display:block;">Локальный порт</strong>
+                    <small class="setting-hint" style="display:block;margin-top:2px;">127.0.0.1:20808</small>
+                  </div>
+                </div>
+                <button id="btn-emergency-reset" class="core-reset-pill-btn">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                  Сбросить ядро
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 6: Live Core Logs -->
+          <div class="logs-section">
+            <div class="logs-bar">
+              <div class="logs-bar-left">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#8E95A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="16" rx="2"/>
+                  <polyline points="7 9 10 12 7 15"/>
+                  <line x1="12" y1="15" x2="16" y2="15"/>
+                </svg>
+                <span>Логи sing-box</span>
+              </div>
+              <button id="btn-clear-logs" class="text-link">
+                <span class="live-log-dot"></span>
+                Очистить
+              </button>
+            </div>
+            <div class="logs-view" id="logs-view">
+              <div class="log-row info">[HoneyBear VPN] Готов к работе</div>
+            </div>
+          </div>
+
+          <!-- App Exit & Cleanup Button -->
+          <div style="margin-top:14px; text-align:center;">
+            <button id="btn-full-quit" class="full-quit-btn">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+              Полностью закрыть приложение и освободить адаптеры
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTING / SPLIT TUNNELING FULL VIEW (Matches Reference Screenshot 3) -->
+    <div class="sheet-overlay" id="routing-sheet">
+      <div class="sheet-header routing-page-header">
+        <div class="sheet-header-left">
+          <button id="btn-close-routing-sheet" class="sheet-back-btn" title="Назад">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div>
+            <div class="sheet-header-title">Раздельное туннелирование</div>
+            <div class="sheet-header-subtitle">Выберите, какие приложения будут использовать VPN, а какие — оставаться без него.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sheet-content">
+        <div class="routing-master-card">
+          <!-- Mode Selector -->
+          <div class="routing-block">
+            <span class="group-caption">Режим туннелирования</span>
+            <div class="radio-card-group">
+              <label class="radio-card">
+                <input type="radio" name="routingMode" value="whitelist" id="mode-whitelist" checked>
+                <span class="radio-custom"></span>
+                <div class="radio-desc">
+                  <span class="radio-text">Только выбранные</span>
+                  <small class="radio-sub">В туннель идут только те, что включены ниже. Весь остальной трафик — напрямую без VPN.</small>
+                </div>
+                <div class="radio-right-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 16V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v9"/>
+                  </svg>
+                </div>
+              </label>
+
+              <label class="radio-card">
+                <input type="radio" name="routingMode" value="blacklist" id="mode-blacklist">
+                <span class="radio-custom"></span>
+                <div class="radio-desc">
+                  <span class="radio-text">Все, кроме выбранных</span>
+                  <small class="radio-sub">Весь трафик через VPN, а выбранные ниже пойдут напрямую без шифрования.</small>
+                </div>
+                <div class="radio-right-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v18"/><path d="M12 8l5 5"/><path d="M12 8L7 13"/>
+                  </svg>
+                </div>
+              </label>
+
+              <label class="radio-card">
+                <input type="radio" name="routingMode" value="all" id="mode-all">
+                <span class="radio-custom"></span>
+                <div class="radio-desc">
+                  <span class="radio-text">Весь трафик</span>
+                  <small class="radio-sub">Стандартный VPN: весь трафик ПК идет через сервер.</small>
+                </div>
+                <div class="radio-right-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14.5 14.5 0 0 1 4 9 14.5 14.5 0 0 1-4 9 14.5 14.5 0 0 1-4-9 14.5 14.5 0 0 1 4-9z"/>
+                  </svg>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Quick Service Toggles -->
+          <div class="routing-block" id="routing-services-box">
+            <span class="group-caption">Готовые сервисы</span>
+            
+            <div class="toggle-card-group">
+              <!-- Discord -->
+              <label class="toggle-card">
+                <div class="toggle-card-left">
+                  <div class="service-icon discord-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="#FFFFFF">
+                      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="toggle-card-title">Discord</div>
+                    <div class="toggle-card-sub">Голос, чат, стриминг (Discord.exe)</div>
+                  </div>
+                </div>
+                <input type="checkbox" id="toggle-app-discord" class="honey-switch" checked>
+              </label>
+
+              <!-- Telegram -->
+              <label class="toggle-card">
+                <div class="toggle-card-left">
+                  <div class="service-icon telegram-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                      <path d="M5.5 11.5L18.5 6.5L16 18L12 14.5L9 16.5L8.5 13L15.5 8.5L7.5 13.5L5.5 11.5Z" fill="#FFFFFF"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="toggle-card-title">Telegram</div>
+                    <div class="toggle-card-sub">Сообщения, звонки и файлы (Telegram.exe)</div>
+                  </div>
+                </div>
+                <input type="checkbox" id="toggle-app-telegram" class="honey-switch">
+              </label>
+
+              <!-- YouTube -->
+              <label class="toggle-card">
+                <div class="toggle-card-left">
+                  <div class="service-icon youtube-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                      <polygon points="9.5 7.5 16.5 12 9.5 16.5" fill="#FFFFFF"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="toggle-card-title">YouTube & Google</div>
+                    <div class="toggle-card-sub">Видео, аватарки, превью (youtube.com, ytimg)</div>
+                  </div>
+                </div>
+                <input type="checkbox" id="toggle-app-youtube" class="honey-switch">
+              </label>
+
+              <!-- Web Browsers -->
+              <label class="toggle-card">
+                <div class="toggle-card-left">
+                  <div class="service-icon browser-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#38BDF8" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="9"/>
+                      <polygon points="15.5 8.5 13.5 13.5 8.5 15.5 10.5 10.5 15.5 8.5" fill="#38BDF8" stroke="none"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="toggle-card-title">Браузеры</div>
+                    <div class="toggle-card-sub">Chrome, Edge, Firefox, Opera, Yandex</div>
+                  </div>
+                </div>
+                <input type="checkbox" id="toggle-app-browsers" class="honey-switch">
+              </label>
+
+              <!-- AdBlock Shield -->
+              <label class="toggle-card">
+                <div class="toggle-card-left">
+                  <div class="service-icon adblock-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#F5B041" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      <polygon points="13 7 9 13 12 13 11 17 15 11 12 11 13 7" fill="#F5B041" stroke="none"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="toggle-card-title">Блокировка рекламы (AdBlock)</div>
+                    <div class="toggle-card-sub">Яндекс.Директ, Google Ads, трекеры и баннеры</div>
+                  </div>
+                </div>
+                <input type="checkbox" id="toggle-app-adblock" class="honey-switch gold-switch" checked>
+              </label>
+
+              <!-- Smart DNS (DNS-AI & Comss.one) Toggle Card -->
+              <label class="toggle-card">
+                <div class="toggle-card-left">
+                  <div class="service-icon comss-dns-icon" style="background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.35);">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="2" y1="12" x2="22" y2="12"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="toggle-card-title">Умный DNS (AI & Нейросети)</div>
+                    <div class="toggle-card-sub">dns-ai.ru + comss.one: Gemini, ChatGPT, Claude, Discord</div>
+                  </div>
+                </div>
+                <input type="checkbox" id="toggle-app-comss-dns" class="honey-switch" checked>
+              </label>
+            </div>
+          </div>
+
+          <!-- Custom Apps / Domains -->
+          <div class="routing-block" style="margin-bottom:0;">
+            <span class="group-caption">Свои сервисы, домены и программы (.exe)</span>
+            <div class="custom-add-row">
+              <div class="custom-input-wrapper">
+                <span class="input-plus-prefix">+</span>
+                <input type="text" id="custom-routing-input" class="setting-input-text" placeholder="Введите чатгпт, твич, стим или домен..." autocomplete="off">
+                <div id="routing-suggestions-dropdown" class="routing-dropdown hidden"></div>
+              </div>
+              <button id="btn-add-custom-route" class="btn-gold-outline">+ Добавить</button>
+            </div>
+            <div class="custom-chips-list" id="custom-chips-list">
+              <!-- Dynamically populated chips -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Atmospheric Banner -->
+        <div class="routing-hero-banner">
+          <div class="routing-banner-left">
+            <div class="routing-banner-bear-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#F5B041" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="7" cy="6" r="2.5"/><circle cx="17" cy="6" r="2.5"/>
+                <path d="M12 5C7.5 5 4.5 8 4.5 12.5S7.5 20 12 20s7.5-3 7.5-7.5S16.5 5 12 5z"/>
+                <circle cx="9.5" cy="11.5" r="1" fill="#F5B041"/><circle cx="14.5" cy="11.5" r="1" fill="#F5B041"/>
+                <path d="M10.5 15c.8.6 2.2.6 3 0"/>
+              </svg>
+            </div>
+            <div class="routing-banner-sep"></div>
+            <div class="routing-banner-text">
+              <div class="routing-banner-title">HoneyBear готов к туннелированию</div>
+              <div class="routing-banner-sub">Выберите сервис из каталога выше или введите свой домен / .exe</div>
+            </div>
+          </div>
+          <div class="routing-banner-art">
+            <img src="../assets/bear.jpg" alt="" class="routing-banner-bear-img">
+          </div>
+          <div class="routing-banner-arrow">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#F5B041" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- UPDATE & CHANGELOG MODAL -->
+    <div class="dialog-overlay" id="update-modal" style="display:none;">
+      <div class="dialog-box update-dialog-box">
+        <div class="dialog-header">
+          <h3>
+            <span class="update-modal-bear-icon">🐻</span>
+            <span id="update-modal-title">Обновление HoneyBear VPN</span>
+          </h3>
+          <button id="btn-close-update-modal" class="sheet-close">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div class="update-modal-version-tag">
+          <span class="version-badge current" id="modal-current-version">v1.2.0</span>
+          <span class="version-arrow">→</span>
+          <span class="version-badge new" id="modal-new-version">v1.2.1</span>
+          <span class="version-date" id="modal-release-date"></span>
+        </div>
+
+        <div class="update-changelog-container" id="modal-changelog-text">
+          <!-- Rendered changelog -->
+        </div>
+
+        <!-- Progress bar shown during download -->
+        <div class="update-progress-wrap" id="modal-progress-wrap" style="display:none;">
+          <div class="update-progress-info">
+            <span id="modal-progress-label">Загрузка обновления...</span>
+            <span id="modal-progress-percent">0%</span>
+          </div>
+          <div class="update-progress-bar-bg">
+            <div class="update-progress-bar-fill" id="modal-progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="dialog-footer">
+          <button id="btn-update-later" class="dialog-btn secondary">Позже</button>
+          <button id="btn-update-now" class="dialog-btn primary btn-gold-action">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span id="btn-update-now-text">Обновить и перезапустить</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMPORT MODAL DIALOG -->
+    <div class="dialog-overlay" id="import-dialog">
+      <div class="dialog-box">
+        <div class="dialog-header">
+          <h3><img src="../assets/bear.jpg" alt="" class="dialog-title-bear-img"> Добавить сервер или подписку</h3>
+          <button id="btn-close-dialog" class="sheet-close">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <p class="dialog-hint">
+          Вставьте ссылку на подписку <code>https://...</code> или ключ <code>vless://</code>, <code>vmess://</code>, <code>ss://</code>, <code>trojan://</code>
+        </p>
+        <textarea id="dialog-input" class="dialog-textarea" placeholder="Вставьте ссылку или ключ..."></textarea>
+        <div id="dialog-error-msg" class="dialog-error"></div>
+        <div class="dialog-footer">
+          <button id="btn-dialog-paste" class="dialog-btn secondary">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+            </svg>
+            Из буфера
+          </button>
+          <div class="dialog-footer-right">
+            <button id="btn-dialog-cancel" class="dialog-btn secondary">Отмена</button>
+            <button id="btn-dialog-submit" class="dialog-btn primary">Добавить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Toast Notification -->
+    <div class="app-toast" id="app-toast"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
